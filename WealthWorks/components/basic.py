@@ -17,17 +17,46 @@ def header(page) -> rx.Component:
         budget_color = "white"
         debt_bg = "-"
         debt_color = "-"
+        news_bg = "-"
+        news_color = "-"
+        cookbook_bg = "-"
+        cookbook_color = "-"
     elif page == "/debt-repayment":
         budget_bg = "-"
         budget_color = "-"
         debt_bg = "#4662D5"
         debt_color = "white"
+        news_bg = "-"
+        news_color = "-"
+        cookbook_bg = "-"
+        cookbook_color = "-"
+    elif page == "/news":
+        budget_bg = "-"
+        budget_color = "-"
+        debt_bg = "-"
+        debt_color = "-"
+        news_bg = "#4662D5"
+        news_color = "white"
+        cookbook_bg = "-"
+        cookbook_color = "-"
+    elif page == "/good_to_know":
+        budget_bg = "-"
+        budget_color = "-"
+        debt_bg = "-"
+        debt_color = "-"
+        news_bg = "-"
+        news_color = "-"
+        cookbook_bg = "#4662D5"
+        cookbook_color = "white"
     else:
         budget_bg = "-"
         budget_color = "-"
         debt_bg = "-"
         debt_color = "-"
-
+        news_bg = "-"
+        news_color = "-"
+        cookbook_bg = "-"
+        cookbook_color = "-"
     return rx.flex(
         rx.box(height="20px"),
         rx.heading(
@@ -37,32 +66,61 @@ def header(page) -> rx.Component:
             align="center",
         ),
         rx.box(height="20px"),
-        rx.flex(
-            rx.card(
-                rx.text(
-                    rx.link("Budget Planner", href="/", color=budget_color),
-                    size="3",
-                    weight="medium",
-                    align="center"
+        rx.vstack(
+            rx.flex(
+                rx.card(
+                    rx.text(
+                        rx.link("Budget Planner", href="/", color=budget_color),
+                        size="3",
+                        weight="medium",
+                        align="center"
+                    ),
+                    width="100%",
+                    height="3em",
+                    bg_color=budget_bg,
                 ),
-                width="100%",
-                height="3em",
-                bg_color=budget_bg,
-            ),
-            rx.card(
-                rx.text(
-                    rx.link("Debt Repayment", href="/debt-repayment", color=debt_color),
-                    size="3",
-                    weight="medium",
-                    align="center"
+                rx.card(
+                    rx.text(
+                        rx.link("Debt Repayment", href="/debt-repayment", color=debt_color),
+                        size="3",
+                        weight="medium",
+                        align="center"
+                    ),
+                    width="100%",
+                    height="3em",
+                    bg_color = debt_bg,
                 ),
-                width="100%",
-                height="3em",
-                bg_color = debt_bg,
+                spacing="2",
+                direction="row",
+                width="100%"
             ),
-            spacing="2",
-            direction="row",
-            width="100%"
+            rx.flex(
+                rx.card(
+                    rx.text(
+                        rx.link("Market News", href="/news", color=news_color),
+                        size="3",
+                        weight="medium",
+                        align="center"
+                    ),
+                    width="100%",
+                    height="3em",
+                    bg_color=news_bg,
+                ),
+                rx.card(
+                    rx.text(
+                        rx.link("The Cookbook", href="/good_to_know", color=cookbook_color),
+                        size="3",
+                        weight="medium",
+                        align="center"
+                    ),
+                    width="100%",
+                    height="3em",
+                    bg_color=cookbook_bg,
+                ),
+                spacing="2",
+                direction="row",
+                width="100%"
+            )
         ),
         direction="column",
         width="100%"

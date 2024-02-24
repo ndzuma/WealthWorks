@@ -5,11 +5,11 @@ from WealthWorks.components import extra
 
 
 # Main section
-def good_to_know() -> rx.Component:
+def news() -> rx.Component:
     return rx.flex(
         rx.spacer(min_width="10px"),
         rx.flex(
-            basic.header("/good_to_know"),
+            basic.header("/news"),
             extra.coming_soon(),
             rx.chakra.divider(border_color="lightgrey"),
             basic.footer(),

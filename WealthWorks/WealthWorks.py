@@ -2,9 +2,11 @@
 import reflex as rx
 
 from WealthWorks.pages.debtRepayment import debt_repayment
-from WealthWorks.pages.budgetPlanner import planner
-from WealthWorks.pages.page404 import page404
 from WealthWorks.pages.goodToKnow import good_to_know
+from WealthWorks.pages.budgetPlanner import planner
+from WealthWorks.pages.news import news
+from WealthWorks.pages.page404 import page404
+
 
 
 # All pages
@@ -23,8 +25,17 @@ def index() -> rx.Component:
 def debt() -> rx.Component:
     return debt_repayment()
 
+
 @rx.page(
-    route="/good-to-know",
+    route="/news",
+    title="Market news | WealthWorks"
+)
+def market_news() -> rx.Component:
+    return news()
+
+
+@rx.page(
+    route="/good_to_know",
     title="Good to Know | WealthWorks"
 )
 def debt() -> rx.Component:
