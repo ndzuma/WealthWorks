@@ -13,7 +13,7 @@ class BudgetState(rx.State):
     name: str
     amount: int
     budget: int = 0
-    current_total: int
+    current_total: int = 0
     true_total: int
     available: int
     saved: int
@@ -23,12 +23,14 @@ class BudgetState(rx.State):
         if self.name != "" and self.amount != 0:
             # add to list
             if self.name not in self.resources_list:
-                self.resources_list.update({self.name: [[self.category],[self.amount]]})
+                self.resources_list.update({self.name: [[self.category], [self.amount]]})
                 # update category list
                 self.resources = self.sum_categories(self.resources_list)
                 self.find_total()
                 self.find_available()
                 self.find_saved()
+                self.resources = self.sum_categories(self.resources_list)
+
     def sum_categories(self, dictionary):
         category_list = [
             {"name": "Investing", "value": 0},
@@ -44,7 +46,7 @@ class BudgetState(rx.State):
             {"name": "Other", "value": 0},
             {"name": "Transport", "value": 0},
             {"name": "Entertainment", "value": 0},
-            {"name": "Available", "value": 0}
+            {"name": "Available", "value": self.available}
         ]
         for i in dictionary:
             j = (dictionary[i][0])
@@ -80,7 +82,14 @@ class BudgetState(rx.State):
 
     def find_available(self):
         if self.budget != 0:
-            self.available = self.budget - self.current_total
+            self.available = int(self.budget) - self.current_total
+
+    def set_budget(self, value):
+        try:
+            self.budget = int(value)
+            self.find_available()
+        except ValueError:
+            print("Not a number")
 
     def download_pdf(self):
 
@@ -129,19 +138,33 @@ def graph() -> rx.Component:
 
 
 def amount_input() -> rx.Component:
-    category = ["Groceries", "Transport", "Entertainment", "Bills", "Utilities",  "Mortgage", "Rent", "Debt repayment", "Internet", "Other", "Investing", "Savings", "Emergency fund"]
-    placeholder = category[6]
+    category = ["Groceries", "Transport", "Entertainment", "Bills", "Utilities", "Mortgage", "Rent", "Debt repayment",
+                "Internet", "Other", "Investing", "Savings", "Emergency fund"]
+    placeholder = category[3]
     return rx.flex(
-        rx.select(
-            category,
-            default_value=placeholder,
-            on_change=BudgetState.set_category,
-            required=True,
+        rx.flex(
+            rx.chakra.input(placeholder="Budget", on_change=BudgetState.set_budget, border_color="#CDCED6", size="sm", border_radius="8"),
+            justify="start",
+            width="100%",
+            spacing="2",
         ),
-        rx.input(placeholder="Name", on_change=BudgetState.set_name, required=True),
-        rx.input(placeholder="Amount", on_change=BudgetState.set_amount, required=True),
-        rx.button("Enter", on_click=BudgetState.add_expense),
-        justify="start",
+        rx.flex(
+            rx.chakra.select(
+                category,
+                default_value=placeholder,
+                on_change=BudgetState.set_category,
+                is_required=True,
+                border_color="#CDCED6",
+                border_radius="8",
+                size="sm"
+            ),
+            rx.chakra.input(placeholder="Name", on_change=BudgetState.set_name, is_required=True, border_color="#CDCED6", size="sm", border_radius="8"),
+            rx.chakra.input(placeholder="Amount", on_change=BudgetState.set_amount, is_required=True,border_color="#CDCED6",size="sm", border_radius="8"),
+            rx.chakra.button("Enter", on_click=BudgetState.add_expense, bg="#4662D5", color="white", size="sm", width="15em", border_radius="8"),
+            justify="start",
+            spacing="2",
+        ),
+        direction="column",
         spacing="2",
     )
 
