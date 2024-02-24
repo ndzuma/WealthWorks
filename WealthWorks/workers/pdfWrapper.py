@@ -8,6 +8,11 @@ from reportlab.lib.units import inch
 from io import BytesIO
 
 
+def get_current_dir():
+    import os
+    return os.getcwd()
+
+
 def get_tale_height(data):
     return len(data) * 14 + 20 + 12
 
@@ -65,9 +70,8 @@ def create_pdf(expense_data: list, savings_data: list, summary_data: list):
 
     # Set up the font
     c.setFont("Helvetica", 12)
-
     # Logo
-    logo_path = "/Users/malate/Developer/WealthWorks/WealthWorks/workers/logo2.png"  # Path to your logo file
+    logo_path = get_current_dir() + "/WealthWorks/workers/logo2.png"  # Path to your logo file
     c.drawImage(logo_path, 40, 700, width=201, height=43)
 
     # Title
