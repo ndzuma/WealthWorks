@@ -78,7 +78,7 @@ class BudgetState(rx.State):
                 real_total += l["value"]
 
         self.current_total = total
-        self.true_total = real_total + total
+        self.true_total = real_total + total - self.budget
 
     def find_available(self):
         if self.budget != 0:
@@ -113,7 +113,7 @@ class BudgetState(rx.State):
 
         return rx.download(
             data=create_pdf(expense_data, savings_data, summary_data),
-            filename="example.pdf",
+            filename="Budget.pdf",
         )
 
 
