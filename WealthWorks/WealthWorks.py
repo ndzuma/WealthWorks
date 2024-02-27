@@ -8,7 +8,6 @@ from WealthWorks.pages.news import news
 from WealthWorks.pages.page404 import page404
 
 
-
 # All pages
 @rx.page(
     route="/",
@@ -51,6 +50,19 @@ def not_found() -> rx.Component:
 
 
 app = rx.App(
+    head_components=[
+        rx.script(
+            """
+            (function() {
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = "https://umami.ndzuma.pro/script.js";
+                script.setAttribute('data-website-id', 'b9493033-fdcb-451d-addc-7c8d17e6e64f');
+                document.head.appendChild(script);
+            }) ();
+            """
+        )
+    ],
     theme=rx.theme(
         appearance="dark",
         has_background=True,
