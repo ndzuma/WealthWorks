@@ -40,9 +40,6 @@ class BudgetState(rx.State):
             {"name": "Utilities", "value": 0},
             {"name": "Mortgage", "value": 0},
             {"name": "Rent", "value": 0},
-            {"name": "Internet", "value": 0},
-            {"name": "Groceries", "value": 0},
-            {"name": "Bills", "value": 0},
             {"name": "Other", "value": 0},
             {"name": "Transport", "value": 0},
             {"name": "Entertainment", "value": 0},
@@ -138,8 +135,8 @@ def graph() -> rx.Component:
 
 
 def amount_input() -> rx.Component:
-    category = ["Groceries", "Transport", "Entertainment", "Bills", "Utilities", "Mortgage", "Rent", "Debt repayment",
-                "Internet", "Other", "Investing", "Savings", "Emergency fund"]
+    category = ["Groceries", "Transport", "Entertainment", "Utilities", "Mortgage", "Rent", "Debt repayment",
+                "Other", "Investing", "Savings", "Emergency fund"]
     placeholder = category[3]
     return rx.flex(
         rx.flex(
@@ -283,11 +280,13 @@ def planner() -> rx.Component:
             basic.footer(),
             rx.box(min_height="10px"),
             direction="column",
+            width="100%",
             max_width="50em",
             spacing="5",
         ),
         rx.spacer(min_width="10px"),
         justify="center",
         direction="row",
+        width="100vw",
         height="100vh",
     )

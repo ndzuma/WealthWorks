@@ -9,6 +9,7 @@ creatorGitHub: str = "https://github.com/ndzuma"
 
 # App Information
 appTitle: str = "WealthWorks"
+appFeedback: str = "https://codepulse.streamlit.app"
 
 
 def header(page) -> rx.Component:
@@ -148,8 +149,9 @@ def contact_me() -> rx.Component:
                 "You can find on the following platforms:\n",
                 rx.link("Email", href=f"mailto:{creatorEmail}?subject=Hello%20from%20a%20Visitor"),
                 ", ", rx.link("LinkedIn", href=creatorLinkedIn),
-                ", ", rx.link("GitHub", href=creatorGitHub), "\n"
+                ", ", rx.link("GitHub", href=creatorGitHub)
             ),
+            rx.dialog.description(rx.link("Send Feedback", href=appFeedback)),
             rx.dialog.close(
                 rx.link("Close"),
             )

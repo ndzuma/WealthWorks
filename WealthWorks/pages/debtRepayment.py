@@ -20,11 +20,13 @@ def debt_repayment() -> rx.Component:
             basic.footer(),
             rx.box(min_height="10px"),
             direction="column",
+            width="100%",
             max_width="50em",
             spacing="5",
         ),
         rx.spacer(min_width="10px"),
         justify="center",
         direction="row",
+        width="100vw",
         height="100vh",
     )
