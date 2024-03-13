@@ -40,7 +40,7 @@ def header(page) -> rx.Component:
         news_color = "white"
         cookbook_bg = "-"
         cookbook_color = "-"
-    elif page == "/good_to_know":
+    elif page == "/good-to-know":
         budget_bg = "-"
         budget_color = "-"
         debt_bg = "-"
@@ -109,7 +109,7 @@ def header(page) -> rx.Component:
                 ),
                 rx.card(
                     rx.text(
-                        rx.link("The Cookbook", href="/good_to_know", color=cookbook_color),
+                        rx.link("The Cookbook", href="/good-to-know", color=cookbook_color),
                         size="3",
                         weight="medium",
                         align="center"

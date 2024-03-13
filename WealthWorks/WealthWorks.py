@@ -34,7 +34,7 @@ def market_news() -> rx.Component:
 
 
 @rx.page(
-    route="/good_to_know",
+    route="/good-to-know",
     title="Good to Know | WealthWorks"
 )
 def debt() -> rx.Component:
