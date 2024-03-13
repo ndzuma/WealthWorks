@@ -1,4 +1,5 @@
-import time
+"""Debt Repayment Calculator Module"""
+
 from WealthWorks.workers import consoleStatements as Display
 
 
