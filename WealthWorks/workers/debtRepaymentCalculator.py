@@ -63,6 +63,8 @@ def calculate_repayment(debts: list, extra_payment=0):
         if total_debt <= 0:
             break
 
+    total_paid += total_interest_paid
+
     # Displaying in the console
     Display.completed(service)
     return months, monthly_payment, round(total_paid, 2), round(total_interest_paid, 2)
