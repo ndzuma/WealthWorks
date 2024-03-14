@@ -3,27 +3,48 @@ import reflex as rx
 from typing import List, Dict
 from WealthWorks.components import basic
 from WealthWorks.workers.pdfWrapper import create_pdf
+from WealthWorks.workers import consoleStatements as Display
 
 
 # State
 class BudgetState(rx.State):
-    resources = [{"name": "Available", "value": 100}]
-    resources_list: Dict[str, List[List[str]]] = {}
-    category: str = "Rent"
+    service: str
+    resources: list
+    resources_list: Dict[str, List[List[str]]]
+    category: str
+
+    # Inputs from the user
     name: str
     amount: int
-    budget: int = 0
-    current_total: int = 0
+    budget: int
+
+    # Outputs from the calculations
+    current_total: int
     true_total: int
     available: int
     saved: int
     Emergency_fund: int
 
+    def __init__(self, *args, **kwargs):
+        # initialize state
+        super().__init__(*args, **kwargs)
+        self.service = "Budget page"
+        self.resources = [{"name": "Available", "value": 100}]
+        self.resources_list = {}
+        self.category = "Rent"
+        self.budget = 0
+        self.current_total = 0
+
+    # Methods
     def add_expense(self):
+        """
+        Adds an expense to the list
+        """
         if self.name != "" and self.amount != 0:
             # add to list
             if self.name not in self.resources_list:
                 self.resources_list.update({self.name: [[self.category], [self.amount]]})
+
                 # update category list
                 self.resources = self.sum_categories(self.resources_list)
                 self.find_total()
@@ -31,7 +52,15 @@ class BudgetState(rx.State):
                 self.find_saved()
                 self.resources = self.sum_categories(self.resources_list)
 
+                # Displaying in the console
+                Display.message(self.service, "Added expense")
+
     def sum_categories(self, dictionary):
+        """
+        Sums the categories in the dictionary
+        :param dictionary: The current list of resources
+        :return: A list of categories and their values
+        """
         category_list = [
             {"name": "Investing", "value": 0},
             {"name": "Savings", "value": 0},
@@ -54,6 +83,9 @@ class BudgetState(rx.State):
         return category_list
 
     def find_saved(self):
+        """
+        Finds the amount saved or invested and the amount in the emergency fund
+        """
         saved = 0
         ef = 0
         for l in self.resources:
@@ -65,6 +97,9 @@ class BudgetState(rx.State):
         self.Emergency_fund = ef
 
     def find_total(self):
+        """
+        Finds the total amount of money spent
+        """
         no_fly_list = ["Investing", "Savings", "Emergency fund", "Available"]
         total = 0
         real_total = 0
@@ -78,6 +113,9 @@ class BudgetState(rx.State):
         self.true_total = real_total + total - self.budget
 
     def find_available(self):
+        """
+        Finds the amount of money available from your budget after expenses
+        """
         if self.budget != 0:
             self.available = int(self.budget) - self.current_total
 
@@ -89,7 +127,10 @@ class BudgetState(rx.State):
             print("Not a number")
 
     def download_pdf(self):
-
+        """
+        Downloads the budget as a PDF, by creating a PDF and downloading it
+        :return: A PDF file
+        """
         # format expense data
         expense_data = [["Category", "Item", "Amount"]]
         for i in self.resources_list:
@@ -156,7 +197,7 @@ def amount_input() -> rx.Component:
                 size="sm"
             ),
             rx.chakra.input(placeholder="Name", on_change=BudgetState.set_name, is_required=True, border_color="#CDCED6", size="sm", border_radius="8"),
-            rx.chakra.input(placeholder="Amount", on_change=BudgetState.set_amount, is_required=True,border_color="#CDCED6",size="sm", border_radius="8"),
+            rx.chakra.input(placeholder="Amount", on_change=BudgetState.set_amount, is_required=True, border_color="#CDCED6", size="sm", border_radius="8"),
             rx.chakra.button("Enter", on_click=BudgetState.add_expense, bg="#4662D5", color="white", size="sm", width="15em", border_radius="8"),
             justify="start",
             spacing="2",
