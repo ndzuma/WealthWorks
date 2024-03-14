@@ -3,10 +3,12 @@ import reflex as rx
 from typing import List, Dict, Any
 from WealthWorks.components import basic
 from WealthWorks.workers.debtRepaymentCalculator import calculate_repayment, priority_payment
+from WealthWorks.workers import consoleStatements as Display
 
 
 # State
 class DebtState(rx.State):
+    service: str
     resources: list
     debts: list
     previousDebts: List[Dict[str, Any]]
@@ -15,7 +17,7 @@ class DebtState(rx.State):
     interestRateState: str
     extraMonthlyPaymentState: str
 
-    # Inputs
+    # Inputs from the user
     name: str
     repaymentBalance: float
     minimumPayment: float
@@ -23,7 +25,7 @@ class DebtState(rx.State):
     extraMonthlyPayment: float
     inputState: str
 
-    # Outputs
+    # Outputs from the calculations
     months: int
     monthlyPayment: float
     priority: str
@@ -34,6 +36,7 @@ class DebtState(rx.State):
     def __init__(self, *args, **kwargs):
         # Initialize state
         super().__init__(*args, **kwargs)
+        self.service = "Debt page"
         self.name = ""
         self.repaymentBalance = 0
         self.minimumPayment = 0
@@ -82,6 +85,7 @@ class DebtState(rx.State):
             self.interestRate = float(value)
             self.interestRateState = f"{value}"
 
+    # Methods
     def add_debts(self):
         """
         Add the debts to the state from values already in the state
@@ -147,8 +151,8 @@ class DebtState(rx.State):
                 self.yearMonth = self.convert_to_years(self.months)
 
                 # Update the resources for the graph
-                self.resources[0]["value"] = self.totalPaid - self.totalInterestPaid
-                self.resources[1]["value"] = self.totalInterestPaid
+                self.resources[0]["value"] = round((self.totalPaid - self.totalInterestPaid), 2)
+                self.resources[1]["value"] = round(self.totalInterestPaid)
 
             # Clearing the debts from memory
             self.debts = []
