@@ -4,21 +4,40 @@ from reportlab.platypus import Paragraph, Table, TableStyle
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 from reportlab.lib.units import inch
-
+from WealthWorks.workers import consoleStatements as Display
 from io import BytesIO
+
+service: str = "PDF wrapper"
 
 
 def get_current_dir():
+    """
+    Get the current directory
+    :return: A string with the current directory
+    """
     import os
     return os.getcwd()
 
 
-def get_tale_height(data):
+def get_table_height(data: list) -> int:
+    """
+    Get the height of the table
+    :param data: The data to include in the table
+    :return: The height of the table
+    """
     return len(data) * 14 + 20 + 12
 
 
-def create_table(data, colWidths, c, x, y):
-    table = Table(data, colWidths=colWidths)
+def create_table(data: list, col_widths, c, x, y):
+    """
+    Create a nice formatted table
+    :param data: The data to include in the table
+    :param col_widths: The width of the columns
+    :param c: The canvas
+    :param x: The x position of the table
+    :param y: The y position of the table
+    """
+    table = Table(data, colWidths=col_widths)
     table_style = TableStyle([
         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
@@ -32,13 +51,23 @@ def create_table(data, colWidths, c, x, y):
     table.drawOn(c, x, y)
 
 
-def create_section_title(name, decription, c, styles, x, y, size):
+def create_section_title(name: str, description: str, c, styles, x, y, size) -> int:
+    """
+    Create a section title with a description
+    :param name: Name of the section
+    :param description: The description of the section
+    :param c: The canvas
+    :param styles: The styles to use from reportlab
+    :param x: The x position
+    :param y: The y position
+    :param size: The size of the table
+    :return: The new y position for the next section
+    """
     title = styles["Heading2"]
     c.setFont(title.fontName, title.fontSize)
     c.drawString(x, y, name)
     header2_width = c.stringWidth(name, title.fontName, title.fontSize)
-
-    paragraph = decription
+    paragraph = description
     paragraph_style = styles["Italic"]
     paragraph = Paragraph(paragraph, paragraph_style)
     paragraph.wrapOn(c, 400, 200)
@@ -46,7 +75,7 @@ def create_section_title(name, decription, c, styles, x, y, size):
     return y-size
 
 
-def create_pdf(expense_data: list, savings_data: list, summary_data: list):
+def create_pdf(expense_data: list, savings_data: list, summary_data: list) -> bytes:
     """
     Create a PDF file with the given data
 
@@ -61,6 +90,8 @@ def create_pdf(expense_data: list, savings_data: list, summary_data: list):
     :param summary_data: Summary data to include in the PDF, must be a list of lists and include a header row and a total.
     :return: pdf_data: The PDF data as a bytes string
     """
+    # Displaying in the console
+    Display.start(service)
 
     # Create a BytesIO object to write the PDF to
     buffer = BytesIO()
@@ -97,22 +128,22 @@ def create_pdf(expense_data: list, savings_data: list, summary_data: list):
     y = 600
     # expense Summary
     data = expense_data
-    table_size = get_tale_height(data)
+    table_size = get_table_height(data)
     y = create_section_title("Expenses", "Your budgeted expenses", c, styles, x, y, table_size)
-    create_table(data, [2.5 * inch, 2.5 * inch, 2.4 * inch], c, x, y-9)
+    create_table(data, [2.5 * inch, 2.5 * inch, 2.4 * inch], c, x, y - 9)
     y -= 39
 
     # Add Savings
     data = savings_data
 
-    table_size = get_tale_height(data)
+    table_size = get_table_height(data)
     y = create_section_title("Savings", "Your budgeted savings and investments", c, styles, x, y, table_size)
     create_table(data, [2.5 * inch, 2.5 * inch, 2.4 * inch], c, x, y)
     y -= 30
 
     # Add Final Summary
     data = summary_data
-    table_size = get_tale_height(data)
+    table_size = get_table_height(data)
     y = create_section_title("Summary", "Simple summary", c, styles, x, y, table_size)
     create_table(data, [2.5 * inch, 2.5 * inch, 2.4 * inch], c, x, y)
     y -= 30
@@ -123,4 +154,6 @@ def create_pdf(expense_data: list, savings_data: list, summary_data: list):
     pdf_data = buffer.getvalue()
     buffer.close()
 
+    # Display in the console
+    Display.completed(service)
     return pdf_data
