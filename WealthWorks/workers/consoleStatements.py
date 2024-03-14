@@ -3,7 +3,7 @@ def start(service: str = "WealthWorks"):
     Print a message to the console when a service starts
     :param service: The name of the service starting
     """
-    print("Starting", service)
+    print(f"\nStarting {service}...")
 
 
 def completed(service: str = "WealthWorks"):
