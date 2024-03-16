@@ -12,6 +12,41 @@ import requests
 import os
 
 
+def main():
+    # Displaying start confirmation
+    this_service = "News Collector Service"
+    Display.start(this_service)
+
+    # Loading environment variables
+    load_dotenv()
+    marketaux_key = os.getenv("MARKETAUX_API_KEY")
+    supabase_key = os.getenv("SUPABASE_API_KEY")
+    supabase_url = os.getenv("SUPABASE_URL")
+
+    # Checking if API keys were provided
+    if marketaux_key is None:
+        Display.message(this_service, " MarketAux API Key is not set")
+        Display.completed(this_service)
+        raise SystemExit(0)  # Kill the program
+    if supabase_url is None:
+        Display.message(this_service, " Supabase URL is not set")
+        Display.completed(this_service)
+        raise SystemExit(0)  # Kill the program
+    if supabase_key is None:
+        Display.message(this_service, " Supabase API Key is not set")
+        Display.completed(this_service)
+        raise SystemExit(0)  # Kill the program
+
+    # Get the news articles from marketaux
+    news_articles = getNews(service=this_service, key=marketaux_key)
+
+    # Send the news to the supabase database
+    sendToDb(service=this_service, key=supabase_key, url=supabase_url, articles=news_articles)
+
+    # Display completion of service
+    Display.completed(this_service)
+
+
 def getNews(
     key: str,
     service: Optional[str] = "News fetcher service"
@@ -108,38 +143,3 @@ def sendToDb(
 
     # Displaying confirmation to terminal
     Display.message(service, "Articles inserted successfully")
-
-
-def main():
-    # Displaying start confirmation
-    this_service = "News Collector Service"
-    Display.start(this_service)
-
-    # Loading environment variables
-    load_dotenv()
-    marketaux_key = os.getenv("MARKETAUX_API_KEY")
-    supabase_key = os.getenv("SUPABASE_API_KEY")
-    supabase_url = os.getenv("SUPABASE_URL")
-
-    # Checking if API keys were provided
-    if marketaux_key is None:
-        Display.message(this_service, " MarketAux API Key is not set")
-        Display.completed(this_service)
-        raise SystemExit(0)  # Kill the program
-    if supabase_url is None:
-        Display.message(this_service, " Supabase URL is not set")
-        Display.completed(this_service)
-        raise SystemExit(0)  # Kill the program
-    if supabase_key is None:
-        Display.message(this_service, " Supabase API Key is not set")
-        Display.completed(this_service)
-        raise SystemExit(0)  # Kill the program
-
-    # Get the news articles from marketaux
-    news_articles = getNews(service=this_service, key=marketaux_key)
-
-    # Send the news to the supabase database
-    sendToDb(service=this_service, key=supabase_key, url=supabase_url, articles=news_articles)
-
-    # Display completion of service
-    Display.completed(this_service)
