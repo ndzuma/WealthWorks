@@ -38,8 +38,11 @@ def FetchNews() -> List:
 
     # Get the news articles from the Supabase database
     news = getNews(url=Supabase_url, key=supabase_api_key)
-    numPages = findTotalPages(url=Supabase_url, key=supabase_api_key)
-    pageIdIndex = getPagesId(number_of_pages=numPages[0], first_id=numPages[1])
+
+    # Get the page number and the id of the first news article on that page
+    numArticles = 5
+    numPages = findTotalPages(url=Supabase_url, key=supabase_api_key, articles_per_page=numArticles)
+    pageIdIndex = getPagesId(number_of_pages=numPages[0], first_id=numPages[1], articles_per_page=numArticles)
 
     # Display completion of service
     Display.completed(service)
@@ -67,7 +70,11 @@ def getNews(
     return data
 
 
-def getPagesId(number_of_pages: int, first_id: int) -> Dict[int, int]:
+def getPagesId(
+    number_of_pages: int,
+    first_id: int,
+    articles_per_page: Optional[int] = 5
+) -> Dict[int, int]:
     """
     This function returns the id of the first news article on each page
 
@@ -75,6 +82,7 @@ def getPagesId(number_of_pages: int, first_id: int) -> Dict[int, int]:
 
     :param number_of_pages: The total number of pages possible
     :param first_id: The id of the first news article on the first page or in other words the newest news article
+    :param articles_per_page: The number of articles per page
     :return: A dictionary containing the page number as the key and the id of the first news article on that page as the value
     """
     pages = {}
@@ -82,7 +90,7 @@ def getPagesId(number_of_pages: int, first_id: int) -> Dict[int, int]:
     # Looping through the pages and finding the id of the first news article on each page
     for i in range(1, number_of_pages + 1):
         pages[i] = first_id
-        first_id -= 5
+        first_id -= articles_per_page
 
     return pages
 
@@ -90,12 +98,14 @@ def getPagesId(number_of_pages: int, first_id: int) -> Dict[int, int]:
 def findTotalPages(
     url: str,
     key: str,
+    articles_per_page: Optional[int] = 5
 ) -> List[int]:
     """
     This function finds the total number of pages possible
 
     :param url: The URL for the Supabase API
     :param key: The API key for the Supabase API
+    :param articles_per_page: The number of articles per page
     :return: The total number of pages possible
     """
     supabase: Client = create_client(url, key)
@@ -113,8 +123,8 @@ def findTotalPages(
     n_articles = newest_article.data['id'] - (oldest_article.data['id'] - 1)
 
     # Finding the total number of pages possible
-    n_pages = n_articles // 5
-    if n_articles % 5 != 0:
+    n_pages = n_articles // articles_per_page
+    if n_articles % articles_per_page != 0:
         n_pages += 1
 
     return [n_pages, newest_article.data['id']]
