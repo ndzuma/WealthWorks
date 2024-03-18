@@ -2,7 +2,6 @@
 News Collector Service:
 This service collects news articles from the MarketAux API and sends them to the Supabase database
 """
-
 from WealthWorks.workers import consoleStatements as Display
 from typing import Optional, List, Dict, Any
 from supabase import create_client, Client
@@ -42,6 +41,9 @@ def main():
 
     # Send the news to the supabase database
     sendToDb(service=this_service, key=supabase_key, url=supabase_url, articles=news_articles)
+
+    # Correct the size of the database
+    correctDbSize(key=supabase_key, url=supabase_url)
 
     # Display completion of service
     Display.completed(this_service)
@@ -134,8 +136,6 @@ def sendToDb(
     :param articles: The list of dictionaries containing the news articles
     :param service: The name of the service you are calling this program
     """
-    url: str = url
-    key: str = key
     supabase: Client = create_client(url, key)
 
     # Inserting the articles into the database
@@ -143,3 +143,48 @@ def sendToDb(
 
     # Displaying confirmation to terminal
     Display.message(service, "Articles inserted successfully")
+
+
+def correctDbSize(
+    key: str,
+    url: str,
+    max_size: Optional[int] = 1000,
+    service: Optional[str] = "DB size correction service"
+):
+    """
+    This function corrects the size of the database by removing the oldest news articles, for size optimization
+
+    :param key: The API key for the Supabase API
+    :param url: The URL for the Supabase database
+    :param max_size: The maximum size of the database
+    :param service: The name of the service you are calling this program
+    """
+    # Displaying start confirmation
+    Display.start(service)
+
+    supabase: Client = create_client(url, key)
+    # Getting the number of news articles in the database
+    response = supabase.table("WealthworksNews").select("id", count='exact').execute()
+    db_size = response.count
+
+    # If the number of news articles is greater than 1000, remove the oldest articles
+    if db_size > max_size:
+        # Displaying message to terminal
+        Display.message(service, "Size is greater than max size")
+
+        # Getting the oldest news articles
+        response = supabase.table("WealthworksNews").select("id").limit(db_size - max_size).order("id", desc=False).execute()
+        data = response.data
+        ids = [i["id"] for i in data]
+
+        # Removing the oldest news articles
+        supabase.table("WealthworksNews").delete().in_("id", ids).execute()
+
+        # Displaying confirmation to terminal
+        Display.completed(service)
+    else:
+        # Displaying message to terminal
+        Display.message(service, "Size is less than max size")
+
+        # Displaying completion of service
+        Display.completed(service)
