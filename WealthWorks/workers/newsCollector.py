@@ -2,7 +2,7 @@
 News Collector Service:
 This service collects news articles from the MarketAux API and sends them to the Supabase database
 """
-from WealthWorks.workers import consoleStatements as Display
+import consoleStatements as Display
 from typing import Optional, List, Dict, Any
 from supabase import create_client, Client
 from dotenv import load_dotenv
@@ -188,3 +188,5 @@ def correctDbSize(
 
         # Displaying completion of service
         Display.completed(service)
+
+main()
