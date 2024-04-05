@@ -1,14 +1,15 @@
-## Good to Know - The basics
+## Persona Finance Starter Guide
 
-1. **Budgeting**:
-   - Budgeting is the process of creating a plan for your money. It involves estimating income and expenses over a specific period, typically monthly or annually.
-   - Budgeting helps individuals and businesses manage their finances effectively by:
-     - Tracking income and expenses.
-     - Setting financial goals and priorities.
-     - Allocating resources efficiently.
-     - Identifying areas for saving or cutting expenses.
-     - Planning for future expenses and emergencies.
-     - Avoiding debt and overspending.
+### Budgeting
+Budgeting is the process of creating a plan for your money. It involves estimating income and expenses over a specific period, typically monthly or annually.
+
+Budgeting helps individuals and businesses manage their finances effectively by:
+ - Tracking income and expenses.
+ - Setting financial goals and priorities.
+ - Allocating resources efficiently.
+ - Identifying areas for saving or cutting expenses.
+ - Planning for future expenses and emergencies.
+ - Avoiding debt and overspending.
 
 ## Simple Financial Terms Explained
 
