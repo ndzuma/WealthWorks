@@ -189,4 +189,6 @@ def correctDbSize(
         # Displaying completion of service
         Display.completed(service)
 
-main()
+
+if __name__ == "__main__":
+    main()
