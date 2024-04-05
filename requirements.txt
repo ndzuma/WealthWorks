@@ -4,3 +4,5 @@ wheel==0.42.0
 python-dotenv~=1.0.1
 requests~=2.31.0
 supabase~=2.4.0
+markdown2~=2.4.13
+postgrest~=0.16.1
