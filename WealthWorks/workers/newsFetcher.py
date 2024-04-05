@@ -23,11 +23,11 @@ def FetchNews() -> List:
 
     # Loading environment variables
     load_dotenv()
-    Supabase_url = os.environ.get("SUPABASE_URL")
+    supabase_url = os.environ.get("SUPABASE_URL")
     supabase_api_key = os.environ.get("SUPABASE_API_KEY")
 
     # Checking if API keys were provided
-    if Supabase_url is None:
+    if supabase_url is None:
         Display.message(service, "Supabase URL is not set")
         Display.completed(service)
         raise SystemExit(0)
@@ -37,11 +37,11 @@ def FetchNews() -> List:
         raise SystemExit(0)
 
     # Get the news articles from the Supabase database
-    news = getNews(url=Supabase_url, key=supabase_api_key)
+    news = getNews(url=supabase_url, key=supabase_api_key)
 
     # Get the page number and the id of the first news article on that page
     numArticles = 5
-    numPages = findTotalPages(url=Supabase_url, key=supabase_api_key, articles_per_page=numArticles)
+    numPages = findTotalPages(url=supabase_url, key=supabase_api_key, articles_per_page=numArticles)
     pageIdIndex = getPagesId(number_of_pages=numPages[0], first_id=numPages[1], articles_per_page=numArticles)
 
     # Display completion of service
