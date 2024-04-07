@@ -1,5 +1,6 @@
 import reflex as rx
 
+from datetime import datetime
 from typing import List, Dict, Optional
 from WealthWorks.components import basic
 from WealthWorks.workers.newsFetcher import FetchNews
@@ -8,6 +9,7 @@ from WealthWorks.workers.newsFetcher import FetchNews
 class NewsType(rx.Base):
     title: str
     description: str
+    date: str
     url: str
     source: str
     name: str
@@ -42,6 +44,7 @@ class NewsState(rx.State):
             self.articles.append(NewsType(
                 title=i["title"],
                 description=self.truncate_description(i["description"]),
+                date=self.date(i["created_at"]),
                 url=i["url"],
                 source=i["source"],
                 name=i["name"],
@@ -52,6 +55,12 @@ class NewsState(rx.State):
                 equity_type=i["equity_type"]
             ))
         self.pageIdIndex = fetched_news[1]
+
+    @staticmethod
+    def date(date):
+        dt_object = datetime.fromisoformat(date)
+        date = dt_object.strftime("%d-%m-%y")
+        return date
 
     @staticmethod
     def truncate_description(description: str):
@@ -134,7 +143,7 @@ def news() -> rx.Component:
         rx.flex(
             basic.header("/news"),
             news_blocks(),
-            news_pagination(),
+            # news_pagination(), # Pagination is not implemented yet
             rx.chakra.divider(border_color="lightgrey"),
             basic.footer(),
             rx.box(min_height="10px"),
