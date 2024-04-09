@@ -118,7 +118,6 @@ def info_blocks() -> rx.Component:
 # Main section
 def good_to_know() -> rx.Component:
     return rx.flex(
-        rx.theme_panel(default_open=False),
         rx.spacer(min_width="10px"),
         rx.flex(
             basic.header("/good-to-know"),

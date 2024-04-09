@@ -139,7 +139,6 @@ def news_pagination() -> rx.Component:
 # Main section
 def news() -> rx.Component:
     return rx.flex(
-        rx.theme_panel(default_open=False),
         rx.spacer(min_width="10px"),
         rx.flex(
             basic.header("/news"),
