@@ -10,6 +10,7 @@ from WealthWorks.pages.page404 import page404
 from dotenv import load_dotenv
 import os
 
+
 # All pages
 @rx.page(
     route="/",
