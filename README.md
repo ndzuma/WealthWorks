@@ -6,7 +6,9 @@ A place to get your personal finances in order. You can visit the live version o
 
 ## Overview
 
-WealthWorks is built entirely using the Reflex Python library, PostgreSQL with Supabase, and MarketAux for fetching market news. The application provides various features:
+WealthWorks is built entirely using the Reflex Python library, PostgreSQL with Supabase, and MarketAux for fetching market news. The news collection and cleaning scripts are self-hosted on linode and are automated. 
+
+The application provides various features:
 
 - **Budget Management:** Users can create and manage their budgets.
 - **Debt Repayment Calculator:** Helps users calculate how long it will take to pay off their debts and the minimum monthly payments required.
@@ -16,6 +18,8 @@ WealthWorks is built entirely using the Reflex Python library, PostgreSQL with S
 ## Adaptation
 
 You can adapt the app to different databases by modifying the modules in the `workers` folder, particularly `newsCollector.py`, `newsFetcher.py`, and `newsCleanner.py`. Additionally, the content displayed on the "The Cookbook" page can be updated by modifying the Markdown files in the `docs` folder.
+
+To run and schedule/automate the news collection and cleaning see: [schedulingWorkers.md](WealthWorks%2Fworkers%2FschedulingWorkers.md).
 
 ## Environment Variables
 

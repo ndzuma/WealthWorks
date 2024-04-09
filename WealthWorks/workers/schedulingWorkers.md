@@ -1,5 +1,10 @@
 # Templates
 
+First make sure you have setup a virtual environment and installed the required dependencies for the project.
+For intructions see: [README.md](..%2F..%2FREADME.md).
+
+Note: This templates are for scheduling the newsCollector and newsCleanner workers to run every 30 minutes, you could change this to your liking.
+
 ## NewsCollector
 
 1. File name: newsCollector.service
