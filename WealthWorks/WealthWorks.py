@@ -65,6 +65,7 @@ app = rx.App(
     ],
     theme=rx.theme(
         appearance="dark",
+        has_background=True,
         accentColor="blue",
         radius="large",
     ),

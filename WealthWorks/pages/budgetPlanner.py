@@ -310,6 +310,7 @@ def budget_summary() -> rx.Component:
 # Main section
 def planner() -> rx.Component:
     return rx.flex(
+        rx.theme_panel(default_open=False),
         rx.spacer(min_width="10px"),
         rx.flex(
             basic.header("/"),
