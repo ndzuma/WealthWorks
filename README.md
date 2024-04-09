@@ -28,7 +28,6 @@ To run the web app, make sure you have the following dependencies installed:
 
 - reflex==0.4.4
 - reportlab==4.1.0
-- wheel==0.42.0
 - python-dotenv~=1.0.1
 - requests~=2.31.0
 - supabase~=2.4.0
@@ -43,4 +42,60 @@ To run the WealthWorks web app locally, follow these steps:
 
    ```bash
    git clone https://github.com/ndzuma/WealthWorks.git
+    ```
+2. Navigate to the project directory:
 
+   ```bash
+   cd WealthWorks
+   ```
+3. Set up a virtual environment:
+
+   ```bash
+   python3 -m venv venv
+   ```
+4. Activate the virtual environment:
+   - On Windows:
+
+      ```bash
+      venv\Scripts\activate
+      ```
+   - On macOS and Linux:
+
+      ```bash
+       source venv/bin/activate
+       ```
+5. Install the required dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+6. In the 'workers' folder, create a `.env` file and add the following environment variables:
+
+   ```bash
+   MARKETAUX_API_KEY=your_market_aux_api_key
+   SUPABASE_API_KEY=your_supabase_api_key
+   SUPABASE_URL=your_supabase_url
+   ```
+7. Initialise reflex:
+
+   ```bash
+   reflex init
+   ```
+   if you encounter an error, try one of the following command:
+
+   ```bash
+   python -m reflex init
+   python3 -m reflex init
+    ```
+8. Run the app:
+
+   ```bash
+   reflex run
+   ```
+   if you encounter an error, try one of the following command:
+
+   ```bash
+   python -m reflex run
+   python3 -m reflex run
+    ```
+9. Open your browser and navigate to `http://localhost:3000/` to view the app.
