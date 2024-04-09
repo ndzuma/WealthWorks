@@ -1,4 +1,5 @@
 # WealthWorks
+![Budget planner _ WealthWorks.jpeg](assets%2FBudget%20planner%20_%20WealthWorks.jpeg)
 A place to get your personal finances in order. You can visit the live version of the app [here](https://wealthworks.reflex.run/).
 
 ## Overview
