@@ -3,7 +3,7 @@ NewsCleaner class is used to clean duplicate articles from the db.
 """
 import postgrest.exceptions
 
-from WealthWorks.workers import consoleStatements as Display
+import consoleStatements as Display
 from typing import List, Dict, Any
 from supabase import create_client, Client
 from dotenv import load_dotenv
