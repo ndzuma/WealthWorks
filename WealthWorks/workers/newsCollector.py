@@ -6,6 +6,7 @@ import consoleStatements as Display
 from typing import Optional, List, Dict, Any
 from supabase import create_client, Client
 from dotenv import load_dotenv
+from newsCleanner import clean_news
 
 import requests
 import os
@@ -47,6 +48,9 @@ def main():
 
     # Display completion of service
     Display.completed(this_service)
+
+    # Clean the database, comment out if not required
+    clean_news()
 
 
 def getNews(
